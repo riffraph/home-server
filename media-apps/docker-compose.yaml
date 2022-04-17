@@ -1,0 +1,67 @@
+version: '3.5'
+
+services:
+  nzbget:
+    container_name: nzbget
+    image: linuxserver/nzbget
+    hostname: nzbget.server
+    ports:
+      - 6789
+    volumes:
+      - /media/serverapps/nzbget/config:/config
+      - /media/serverapps/nzbget:/downloads
+      - /media/downloads:/completed
+    environment:
+      TZ: Europe/<city>
+      PUID: 997
+      PGID: 1002
+    restart: unless-stopped
+
+  sonarr:
+    container_name: sonarr
+    image: linuxserver/sonarr
+    hostname: sonarr.server
+    ports:
+      - 8989
+      - 9898
+    volumes:
+      - /media/serverapps/sonarr/config:/config
+      - /media/tv:/tv
+      - /media/downloads:/downloads
+    environment:
+      PUID: 996
+      PGID: 1002
+      TZ: Europe/Copenhagen
+      UMASK_SET: 022
+    restart: unless-stopped
+
+  plex:
+    container_name: plex
+    image: plexinc/pms-docker
+    hostname: plex.server
+    ports:
+      - 32400/tcp
+      - 3005/tcp 
+      - 8324/tcp 
+      - 32469/tcp 
+      - 1900/udp 
+      - 32410/udp 
+      - 32412/udp 
+      - 32413/udp 
+      - 32414/udp 
+    volumes:
+      - /media/serverapps/plex/config:/config 
+      - /media/serverapps/plex/transcode:/transcode
+      - /media/tv:/data/tv 
+      - /media/movies:/data/movies
+    environment:
+      TZ: "Europe/<city>" 
+      PLEX_CLAIM: "<plex claim>"
+      PLEX_UID: 995 
+      PLEX_GID: 1002 
+    restart: unless-stopped
+
+networks:
+  default:
+    external:
+      name: docker-network
