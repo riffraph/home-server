@@ -6,14 +6,14 @@ docker network create \
 -d macvlan \
 --subnet=192.168.86.0/24 \
 --gateway=192.168.86.1 \
---ip-range=192.168.86.30/28 \
--o parent=eth0 \
+--ip-range=192.168.86.30/30 \
+-o parent=<external facing network interface> \
 docker-network
 
 
 # create groups
 
-groupadd -g 1002 download
+groupadd -g 1002 downloader
 
 
 # create users
