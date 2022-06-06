@@ -63,5 +63,4 @@ services:
 
 networks:
   default:
-    external:
-      name: docker-network
+    name: docker-network
