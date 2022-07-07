@@ -1,6 +1,8 @@
 version: '3.5'
 
 services:
+  rclone:
+
   nzbget:
     container_name: nzbget
     image: linuxserver/nzbget
@@ -8,9 +10,9 @@ services:
     ports:
       - 6789
     volumes:
-      - /media/serverapps/nzbget/config:/config
-      - /media/serverapps/nzbget:/downloads
-      - /media/downloads:/completed
+      - /serverapps/nzbget/config:/config
+      - /serverapps/nzbget:/downloads
+      - /downloads:/completed
     environment:
       TZ: Europe/<city>
       PUID: 997
@@ -25,9 +27,9 @@ services:
       - 8989
       - 9898
     volumes:
-      - /media/serverapps/sonarr/config:/config
+      - /serverapps/sonarr/config:/config
       - /media/tv:/tv
-      - /media/downloads:/downloads
+      - /downloads:/downloads
     environment:
       PUID: 996
       PGID: 1002
@@ -50,8 +52,8 @@ services:
       - 32413/udp 
       - 32414/udp 
     volumes:
-      - /media/serverapps/plex/config:/config 
-      - /media/serverapps/plex/transcode:/transcode
+      - /serverapps/plex/config:/config 
+      - /serverapps/plex/transcode:/transcode
       - /media/tv:/data/tv 
       - /media/movies:/data/movies
     environment:
@@ -63,4 +65,4 @@ services:
 
 networks:
   default:
-    name: docker-network
+    name: media-network
